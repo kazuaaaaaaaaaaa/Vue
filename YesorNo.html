@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat API Sample</title>
+    <script src="https://unpkg.com/vue@3.5.0"></script>
+    <script src="https://unpkg.com/axios@1.7.0/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <h1>Random Yes or No</h1>
+        <img :src="YNImage" alt="Random Y or N" width="200">
+        <button @click="getRandomYNImage">Get New Y or N</button>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    YNImage: '',
+                };
+            },
+            methods: {
+                getRandomYNImage() {
+                    // Cat APIからランダムな猫の画像を取得 
+                    axios.get('https://yesno.wtf/api')
+                        .then((response) => {
+                            this.YNImage = response.data.image;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            },
+            mounted() {
+                // アプリがマウントされたときに初期画像を取得
+                this.getRandomYNImage();
+            },
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
